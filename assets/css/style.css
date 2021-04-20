@@ -1,0 +1,74 @@
+:root {
+    --black: #000000;
+    --white: #ffffff;
+    --lightblue: #77a9f3;
+    --gray: rgb(160, 162, 165);
+    --slate: rgb(42, 42, 63);
+    --green: green;
+    --red: rgb(235, 41, 41);
+    --orange: orange;
+    --yellow: yellow;
+    --purple: rgb(223, 47, 223);    
+}
+
+body {
+    background-color: var(--white);
+    color: var(--black);
+}
+
+.title {
+    color: var(--white);
+    background-image: linear-gradient(-90deg,#042d69, #4176c5);
+    border: 1px solid;
+    text-align: center;
+    margin: 20px;
+    padding: 10px;
+}
+
+.search-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.form-label {
+    font-weight: bolder;
+    font-size: 25px;
+    margin-left: 10px;
+}
+
+.form-input {
+    border-radius: 7px;
+    border: 2px solid var(--black);
+    margin: 5px;
+    padding: 5px;
+    width: 90%;
+    height: 45px;
+    outline: none;
+}
+
+.btn {
+    text-align: center;
+    width: 90%;
+    margin: 6px;
+}
+
+.btn-search {
+    color: var(--white);
+    background-color: var(--lightblue);
+    font-weight: bold;
+}
+
+.btn-container {
+    border-top: 2px solid var(--black);
+    width: 90%;
+    margin: 5px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.btn-city {
+    color: var(--black);
+    background-color: var(--gray);
+}
