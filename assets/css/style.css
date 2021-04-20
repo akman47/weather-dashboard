@@ -25,7 +25,8 @@ body {
     padding: 10px;
 }
 
-.search-container {
+/* user search input style */
+#search-container {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -48,6 +49,7 @@ body {
     outline: none;
 }
 
+/* button styles for search and city search history */
 .btn {
     text-align: center;
     width: 90%;
@@ -71,4 +73,40 @@ body {
 .btn-city {
     color: var(--black);
     background-color: var(--gray);
+}
+
+/* city current forcast style */
+#results-container {
+    text-align: left;
+}
+
+.current-forecast {
+    border: 2px solid var(--black);
+}
+
+/* uv index color styles */
+.uv-low {
+    background-color: var(--green);
+}
+
+.uv-moderate {
+    background-color: var(--yellow);
+}
+
+.uv-high {
+    background-color: var(--orange);
+}
+
+.uv-higher {
+    background-color: var(--red);
+}
+
+.uv-extreme {
+    background-color: var(--purple);
+}
+
+/* 5 day forecast style */
+.forecast-future {
+    color: var(--white);
+    background-color: var(--slate);
 }
