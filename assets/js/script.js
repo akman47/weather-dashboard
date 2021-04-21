@@ -146,11 +146,15 @@ var displayForecast = function(forecastData) {
 
     // iterate through the first 5 days in forecast data
     for (var i = 0; i < 6; i++) {
+        var forecastDayContainerEl = document.querySelector("#card");
+        forecastDayContainerEl.className = "card";
+        
         // display date
         var dateUnix = forecastData.daily[i].dt;
         var dateForecast = moment.unix(dateUnix).format("M/DD/YYYY");
         var forecastDateEl = document.querySelector("#forecast-date-"+i);
-        forecastDateEl.textContent = ""+ dateForecast;
+        console.log("new date", dateForecast);
+        forecastDateEl.textContent = "" + dateForecast;
 
         // display icon
         var iconId = forecastData.daily[i].weather[0].icon;
