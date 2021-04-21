@@ -1,6 +1,6 @@
 var userFormEl = document.querySelector("#user-form");
 var cityInputEl = document.querySelector("#city");
-var buttonContainerEl = document.querySelector("btn-container");
+var buttonContainerEl = document.querySelector("#btn-container");
 var currentCityEl = document.querySelector("#current-city");
 var currentForecastEl = document.querySelector("#forecast-current");
 var futureForecastEl = document.querySelector("forecast-future");
@@ -23,14 +23,22 @@ var formSubmitHandler = function(event) {
         // clear form for next search
         cityInputEl.value = "";
 
-        // save to searchHistory []
-        searchHistory.push(city);
+        // save to searchHistory[]
+        // if (searchHistory.length === 0) {
+            searchHistory.push(city);
+        // }
+        // else {
+        //     for (var i = 0; i < searchHistory.length; i++) {
+        //         if(searchHistory[i] !== city)
+        //         searchHistory.push(city);
+        //     }
+        // }
+        console.log("history", searchHistory);
         saveLocation();
     }
     else {
         alert("Please enter a city.");
     }
-
 }
 
 // get longitude and latitude coordinates of city input from mapquest API
@@ -145,15 +153,14 @@ var displayForecast = function(forecastData) {
     forecastIntroEl.textContent = "5-Day Forecast";
 
     // iterate through the first 5 days in forecast data
-    for (var i = 0; i < 6; i++) {
-        var forecastDayContainerEl = document.querySelector("#card");
-        forecastDayContainerEl.className = "card";
+    for (var i = 1; i < 6; i++) {
+        var forecastDayContainerEl = document.querySelector("#card-"+i);
+        forecastDayContainerEl.className = "card forecast-body";
         
         // display date
         var dateUnix = forecastData.daily[i].dt;
         var dateForecast = moment.unix(dateUnix).format("M/DD/YYYY");
         var forecastDateEl = document.querySelector("#forecast-date-"+i);
-        console.log("new date", dateForecast);
         forecastDateEl.textContent = "" + dateForecast;
 
         // display icon
@@ -189,7 +196,23 @@ var saveLocation = function() {
 // load city searches from local Storage
 var loadLocations = function() {
     localStorage.getItem("search-history");
+}
 
+// create history search buttons
+var cityButtons = function() {
+    if(searchHistory) {
+        for (var i = 0; i < searchHistory.length; i++) {
+            // split city/state input to get city name
+            var buttonName = searchHistory[i].split(",")[0];
+            console.log(buttonName);
+
+            var buttonEl = document.createElement("button");
+            buttonEl.textContent = buttonName;
+            buttonEl.className = "btn btn-city";
+            buttonEl.setAttribute("type", "button");
+            buttonContainerEl.appendChild(buttonEl);
+        }
+    }
 }
 
 userFormEl.addEventListener("submit",formSubmitHandler);
