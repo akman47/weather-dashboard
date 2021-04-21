@@ -2,6 +2,7 @@
     --black: #000000;
     --white: #ffffff;
     --lightblue: #77a9f3;
+    --darkblue: #0d3d85;
     --gray: rgb(160, 162, 165);
     --slate: rgb(42, 42, 63);
     --green: green;
@@ -29,7 +30,6 @@ body {
 #search-container {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
     justify-content: space-between;
 }
 
@@ -62,6 +62,12 @@ body {
     font-weight: bold;
 }
 
+.btn-search:hover {
+    color: var(--white);
+    background-color: var(--darkblue);
+    font-weight: bold;
+}
+
 .btn-container {
     border-top: 2px solid var(--black);
     width: 90%;
@@ -82,9 +88,23 @@ body {
 
 .forecast-current {
     border: 2px solid var(--black);
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    line-height: 0.7;
+}
+
+h2 {
+    margin-bottom: 0px;
 }
 
 /* uv index color styles */
+#uvi {
+    border-radius: 3px;
+    padding: 3px 5xp;
+    color: var(--white);
+}
+
 .uv-low {
     background-color: var(--green);
 }
