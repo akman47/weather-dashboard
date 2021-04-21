@@ -80,7 +80,7 @@ body {
     text-align: left;
 }
 
-.current-forecast {
+.forecast-current {
     border: 2px solid var(--black);
 }
 

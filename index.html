@@ -17,12 +17,12 @@
                     <label class="form-label" for="city">Search for a City:</label>
                     <input name="city" id="city" type="text" placeholder="San Diego" autofocus="true" class="form-input"/>
                     <button type="submit" class="btn btn-search">Search</button>
-                    <div class="btn-container"></div>
+                    <div class="btn-container" id="btn-city"></div>
                 </form>
             </div>
             <div id="results-container" class="col-8">
                 <!-- search results of weather displayed here through js DOM-->
-                <div id="current-forecast" class="row">
+                <div id="forecast-current" class="row">
                 </div>
                 <div id="forecast-intro" class="row">
                 </div>
@@ -32,6 +32,6 @@
             </div>
         </div>
     </div>
-    
+    <script src="./assets/js/script.js"></script>
 </body>
 </html>
