@@ -1,9 +1,11 @@
 var userFormEl = document.querySelector("#user-form");
 var cityInputEl = document.querySelector("#city");
 var buttonContainerEl = document.querySelector("btn-container");
+var currentCityEl = document.querySelector("#current-city");
 var currentForecastEl = document.querySelector("forecast-current");
 var futureForecastEl = document.querySelector("forecast-future");
 
+var searchCity="Houston";
 var searchHistory = [];
 
 // collect user city input
@@ -12,6 +14,7 @@ var formSubmitHandler = function(event) {
 
     // get value from input element
     var city = cityInputEl.value.trim();
+    searchCity = city;
     console.log(city);
     //getCoordinates(city);
 }
@@ -54,6 +57,29 @@ var getWeatherInfo = function(coordindates) {
 
 // display current weather
 var displayWeather = function(weatherData) {
+    
+    //today's date
+    var date = moment().format("M/DD/YYYY");
+
+    // display city name
+    currentCityEl.textContent = searchCity + " " + "("+ date +")";
+
+    // display current weather
+    var currentTempEl = document.querySelector("#current-temp");
+    var temp = weatherData.current.temp;
+    currentTempEl.textContent = "Temp: " + temp + "°F";
+
+    var currentWindEl = document.querySelector("#current-wind");
+    var wind = weatherData.current.wind_speed;
+    currentWindEl.textContent = "Wind: " + wind + " MPH";
+
+    var currentHumidityEl = document.querySelector("#current-humidity");
+    var humidity = weatherData.current.humidity;
+    currentHumidityEl.textContent = "Humidity: " + humidity + " %";
+    
+    var currentUviEl = document.querySelector("#current-uvi");
+    var uvIndex = weatherData.current.uvi;
+    currentUviEl.textContent = "UV Index: " + uvIndex;
 
 }
 
@@ -65,6 +91,9 @@ var uvIndexColor = function(uvIndex) {
 
 // display 5 day forecast
 var displayForecast = function(forecastData) {
+    var temp = "";
+    var wind = "";
+    var humidity = "";
 
 }
 
