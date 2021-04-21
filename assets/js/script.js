@@ -32,7 +32,8 @@ var formSubmitHandler = function(event) {
                 updatedHistory.push(searchHistory[i]);
             }
         }
-
+        
+        //cityButtons(updatedHistory[0]);
         searchHistory = updatedHistory;
         saveLocation();
     }
@@ -211,7 +212,6 @@ var loadLocations = function() {
 
 // create history search buttons
 var cityButtons = function(city) {
-
     // split city/state input to get city name
     var buttonName = city.split(",")[0];
 
@@ -223,5 +223,12 @@ var cityButtons = function(city) {
     buttonContainerEl.appendChild(buttonEl);
 }
 
+// if city button clicked, load city weather
+var loadHistoryWeather = function(event) {
+    searchCity = event.target.textContent;
+    getCoordinates(searchCity);
+}
+
 userFormEl.addEventListener("submit",formSubmitHandler);
+buttonContainerEl.addEventListener("click", loadHistoryWeather);
 loadLocations();
