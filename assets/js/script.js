@@ -24,16 +24,16 @@ var formSubmitHandler = function(event) {
         cityInputEl.value = "";
 
         // save to searchHistory[]
-        // if (searchHistory.length === 0) {
-            searchHistory.push(city);
-        // }
-        // else {
-        //     for (var i = 0; i < searchHistory.length; i++) {
-        //         if(searchHistory[i] !== city)
-        //         searchHistory.push(city);
-        //     }
-        // }
-        console.log("history", searchHistory);
+        var updatedHistory = [];
+        updatedHistory.push(city);
+
+        for (var i = 0; i < searchHistory.length; i++) {
+            if(city !== searchHistory[i]) {
+                updatedHistory.push(searchHistory[i]);
+            }
+        }
+
+        searchHistory = updatedHistory;
         saveLocation();
     }
     else {
@@ -150,7 +150,7 @@ var displayForecast = function(forecastData) {
     console.log(forecastData);
 
     var forecastIntroEl = document.querySelector("#forecast-intro");
-    forecastIntroEl.textContent = "5-Day Forecast";
+    forecastIntroEl.textContent = "5-Day Forecast:";
 
     // iterate through the first 5 days in forecast data
     for (var i = 1; i < 6; i++) {
@@ -195,25 +195,33 @@ var saveLocation = function() {
 
 // load city searches from local Storage
 var loadLocations = function() {
-    localStorage.getItem("search-history");
-}
+    var savedLocations = localStorage.getItem("search-history");
 
-// create history search buttons
-var cityButtons = function() {
-    if(searchHistory) {
-        for (var i = 0; i < searchHistory.length; i++) {
-            // split city/state input to get city name
-            var buttonName = searchHistory[i].split(",")[0];
-            console.log(buttonName);
+    // checks if savedLocations is null, and if so, sets searchHistory back to empty array
+    if(!savedLocations) {
+        return false;
+    }
 
-            var buttonEl = document.createElement("button");
-            buttonEl.textContent = buttonName;
-            buttonEl.className = "btn btn-city";
-            buttonEl.setAttribute("type", "button");
-            buttonContainerEl.appendChild(buttonEl);
-        }
+    searchHistory = JSON.parse(savedLocations);
+
+    for (var i = 0; i < searchHistory.length; i++) {
+        cityButtons(searchHistory[i]);
     }
 }
 
+// create history search buttons
+var cityButtons = function(city) {
+
+    // split city/state input to get city name
+    var buttonName = city.split(",")[0];
+
+    // create history search button for city
+    var buttonEl = document.createElement("button");
+    buttonEl.textContent = buttonName;
+    buttonEl.className = "btn btn-city";
+    buttonEl.setAttribute("type", "button");
+    buttonContainerEl.appendChild(buttonEl);
+}
+
 userFormEl.addEventListener("submit",formSubmitHandler);
-// loadLocations();
+loadLocations();
