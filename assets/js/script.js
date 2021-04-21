@@ -8,21 +8,26 @@ var futureForecastEl = document.querySelector("forecast-future");
 var searchCity="";
 var searchHistory = [];
 
-// collect user city input
+// collect city input
 var formSubmitHandler = function(event) {
     event.preventDefault();
 
     // get value from input element
     var city = cityInputEl.value.trim();
     searchCity = city;
-    console.log(city);
+
+    // geocode city
     getCoordinates(city);
 
-    // save to searchHistory
+    // clear form for next search
+    cityInputEl.value = "";
+
+    // save to searchHistory []
     searchHistory.push(city);
+    saveLocation();
 }
 
-// get longitude and latitude coordinates from city
+// get longitude and latitude coordinates of city input from mapquest API
 var getCoordinates = function(searchCity) {
     var geocodeApiUrl = "http://www.mapquestapi.com/geocoding/v1/address?key=4kON7aMII2plUGxg7GnPOJVn3RGuO6qs&location="+searchCity;
     fetch(geocodeApiUrl).then(function(response) {
@@ -37,7 +42,6 @@ var getCoordinates = function(searchCity) {
             console.log("Couldn't get city coordinates from mapquest API: ", response.text);
         }
     });
-
 }
 
 // get weather data from one call API weather
@@ -61,10 +65,10 @@ var getWeatherInfo = function(coordindates) {
 
 // display current weather
 var displayWeather = function(weatherData) {
-
+    // dynamically style the display div
     currentForecastEl.className = "forecast-current";
     
-    //today's date
+    // today's date
     var date = moment().format("M/DD/YYYY");
 
     // get current weather icon
@@ -79,48 +83,51 @@ var displayWeather = function(weatherData) {
     currentCityEl.textContent = searchCity + " " + "("+ date +") ";
     currentCityEl.appendChild(weatherIconEl);
 
-    // display current weather
+    // display current temperature
     var currentTempEl = document.querySelector("#current-temp");
     var temp = weatherData.current.temp;
     currentTempEl.textContent = "Temp: " + temp + "°F";
 
+    // display current wind speed
     var currentWindEl = document.querySelector("#current-wind");
     var wind = weatherData.current.wind_speed;
     currentWindEl.textContent = "Wind: " + wind + " MPH";
 
+    // display current humidity
     var currentHumidityEl = document.querySelector("#current-humidity");
     var humidity = weatherData.current.humidity;
     currentHumidityEl.textContent = "Humidity: " + humidity + " %";
     
+    // display current UV index
     var currentUviEl = document.querySelector("#current-uvi");
     var uvIndex = weatherData.current.uvi;
-    //uvIndexColor(uvIndex);
-    currentUviEl.textContent = "UV Index: " + uvIndex;
-
+    currentUviEl.innerHTML = "UV Index: <span id='uvi'></span>";
+    uvIndexColor(uvIndex);
 }
 
 // assign corresponding background color to uv index
 var uvIndexColor = function(uvIndex) {
     var uvIndexEl = document.querySelector("#uvi");
-        uvIndex.className = "uvi";
+        uvIndexEl.textContent = uvIndex;
+        uvIndexEl.className = "uvi";
 
     // clear previous uv index class
-    uvIndexEl.removeClass("uv-extreme uv-higher uv-high uv-moderate uv-low");
+    //uvIndexEl.removeClass("uv-extreme uv-higher uv-high uv-moderate uv-low");
 
     if (uvIndex > 10) {
-        uvIndexEl.addClass("uv-extreme");
+        uvIndexEl.className = "uv-extreme";
     }
     else if (uvIndex > 7) {
-        uvIndexEl.addClass("uv-higher");
+        uvIndexEl.className = "uv-higher";
     }
     else if(uvIndex > 5) {
-        uvIndexEl.addClass("uv-high");
+        uvIndexEl.className = "uv-high";
     }
-    else if (uvIndex >2) {
-        uvIndexEl.addClass("uv-moderate");
+    else if (uvIndex > 2) {
+        uvIndexEl.className = "uv-moderate";
     }
     else {
-        uvIndexEl.addClass("uv-low");
+        uvIndexEl.className = "uv-low";
     }
 }
 
@@ -132,11 +139,16 @@ var displayForecast = function(forecastData) {
 
 }
 
-// save city searches to localStorage
-var saveLocation = function(location) {
-
+// save city search to localStorage
+var saveLocation = function() {
+    localStorage.setItem("search-history", JSON.stringify(searchHistory));
 }
 
 // load city searches from local Storage
+var loadLocations = function() {
+    localStorage.getItem("search-history");
+
+}
 
 userFormEl.addEventListener("submit",formSubmitHandler);
+// loadLocations();
