@@ -99,12 +99,11 @@ h2 {
 }
 
 /* uv index color styles */
-.uvi {
+#uvi {
     border-radius: 3px;
     padding: 3px 12xp;
     color: var(--white);
     font-weight: bold;
-
 }
 
 .uv-low {
@@ -128,6 +127,11 @@ h2 {
 }
 
 /* 5 day forecast style */
+.forecast-intro {
+    font-size: 15px;
+    font-weight: bold;
+}
+
 .forecast-future {
     color: var(--white);
     background-color: var(--slate);

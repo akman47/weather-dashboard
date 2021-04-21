@@ -16,15 +16,21 @@ var formSubmitHandler = function(event) {
     var city = cityInputEl.value.trim();
     searchCity = city;
 
-    // geocode city
-    getCoordinates(city);
+    if(city) {
+        // geocode city
+        getCoordinates(city);
 
-    // clear form for next search
-    cityInputEl.value = "";
+        // clear form for next search
+        cityInputEl.value = "";
 
-    // save to searchHistory []
-    searchHistory.push(city);
-    saveLocation();
+        // save to searchHistory []
+        searchHistory.push(city);
+        saveLocation();
+    }
+    else {
+        alert("Please enter a city.");
+    }
+
 }
 
 // get longitude and latitude coordinates of city input from mapquest API
@@ -109,7 +115,7 @@ var displayWeather = function(weatherData) {
 var uvIndexColor = function(uvIndex) {
     var uvIndexEl = document.querySelector("#uvi");
         uvIndexEl.textContent = uvIndex;
-        uvIndexEl.className = "uvi";
+        //uvIndexEl.className = "uvi";
 
     // clear previous uv index class
     //uvIndexEl.removeClass("uv-extreme uv-higher uv-high uv-moderate uv-low");
@@ -133,10 +139,42 @@ var uvIndexColor = function(uvIndex) {
 
 // display 5 day forecast
 var displayForecast = function(forecastData) {
-    var temp = "";
-    var wind = "";
-    var humidity = "";
+    console.log(forecastData);
 
+    var forecastIntroEl = document.querySelector("#forecast-intro");
+    forecastIntroEl.textContent = "5-Day Forecast";
+
+    // iterate through the first 5 days in forecast data
+    for (var i = 0; i < 6; i++) {
+        // display date
+        var dateUnix = forecastData.daily[i].dt;
+        var dateForecast = moment.unix(dateUnix).format("M/DD/YYYY");
+        var forecastDateEl = document.querySelector("#forecast-date-"+i);
+        forecastDateEl.textContent = ""+ dateForecast;
+
+        // display icon
+        var iconId = forecastData.daily[i].weather[0].icon;
+        var iconDescription = forecastData.daily[i].weather[0].description;
+        var iconUrl = "http://openweathermap.org/img/wn/"+ iconId +"@2x.png";
+        var forecastIconEl = document.querySelector("#forecast-icon-"+i);
+        forecastIconEl.setAttribute("src", iconUrl);
+        forecastIconEl.setAttribute("alt", iconDescription);
+
+        // display temperature
+        var tempForecastEl = document.querySelector("#forecast-temp-"+i);
+        var temp = forecastData.daily[i].temp.day;
+        tempForecastEl.textContent = "Temp: " + temp + "°F";
+
+        // display wind
+        var windForecastEl = document.querySelector("#forecast-wind-"+i);
+        var wind = forecastData.daily[i].wind_speed;
+        windForecastEl.textContent = "Wind: " + wind + " MPH";
+
+        // display humidity
+        var humidityForecastEl = document.querySelector("#forecast-humidity-"+i);
+        var humidity = forecastData.daily[i].humidity;
+        humidityForecastEl.textContent = "Humidity: " + humidity + " %";
+    }
 }
 
 // save city search to localStorage
