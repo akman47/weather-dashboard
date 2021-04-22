@@ -44,7 +44,7 @@ var formSubmitHandler = function(event) {
 
 // get longitude and latitude coordinates of city input from mapquest API
 var getCoordinates = function(searchCity) {
-    var geocodeApiUrl = "http://www.mapquestapi.com/geocoding/v1/address?key=4kON7aMII2plUGxg7GnPOJVn3RGuO6qs&location="+searchCity;
+    var geocodeApiUrl = "https://www.mapquestapi.com/geocoding/v1/address?key=4kON7aMII2plUGxg7GnPOJVn3RGuO6qs&location="+searchCity;
     fetch(geocodeApiUrl).then(function(response) {
         if (response.ok) {
             // if successful, obtain coordinates from response and send to getWeather
@@ -89,7 +89,7 @@ var displayWeather = function(weatherData) {
     // get current weather icon
     var weatherIconId = weatherData.current.weather[0].icon;
     var weatherIconDescription = weatherData.current.weather[0].description;
-    var iconUrl = "http://openweathermap.org/img/wn/"+ weatherIconId +"@2x.png";
+    var iconUrl = "https://openweathermap.org/img/wn/"+ weatherIconId +"@2x.png";
     var weatherIconEl = document.createElement("img");
     weatherIconEl.setAttribute("src", iconUrl);
     weatherIconEl.setAttribute("alt", weatherIconDescription);

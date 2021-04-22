@@ -8,8 +8,11 @@ An application for travelers to see the weather outlook for multiple cities so t
 * CSS
 * JavaScript
 
+## Website
+* https://akman47.github.io/weather-dashboard/
+
 ## Snapshot
-![Snapshot of Weather Dashboard](./assets/images/weather.png)
+![Snapshot of Weather Dashboard](./assets/images/weather-dashboard.png)
 
 ## Criteria
 * GIVEN a weather dashboard with form inputs
