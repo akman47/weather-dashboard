@@ -25,6 +25,9 @@ var formSubmitHandler = function(event) {
 
         // save to searchHistory[]
         var updatedHistory = [];
+
+        // split city/state for button name and history comparison
+        city = city.split(",")[0];
         updatedHistory.push(city);
 
         for (var i = 0; i < searchHistory.length; i++) {
@@ -33,8 +36,13 @@ var formSubmitHandler = function(event) {
             }
         }
         
-        cityButtons(updatedHistory[0]);
+        // check to see if city button already exists and if not, create one
+        if (historyCheck(city)){
+            cityButtons(city);
+        }
+
         searchHistory = updatedHistory;
+        trimHistory();
         saveLocation();
     }
     else {
@@ -54,7 +62,8 @@ var getCoordinates = function(searchCity) {
             })
         }
         else {
-            console.log("Couldn't get city coordinates from mapquest API: ", response.text);
+            alert("Couldn't get city coordinates from mapquest API: ", response.statusText);
+            console.log(response.statusText);
         }
     });
 }
@@ -73,7 +82,8 @@ var getWeatherInfo = function(coordindates) {
             })
         }
         else {
-            console.log("Couldn't get weather data from openweathermap API: " + response.text);
+            alert("Couldn't get weather data from openweathermap API: " + response.statusText);
+            console.log(response.statusText);
         }
     });
 }
@@ -123,11 +133,7 @@ var displayWeather = function(weatherData) {
 // assign corresponding background color to uv index
 var uvIndexColor = function(uvIndex) {
     var uvIndexEl = document.querySelector("#uvi");
-        uvIndexEl.textContent = uvIndex;
-        //uvIndexEl.className = "uvi";
-
-    // clear previous uv index class
-    //uvIndexEl.removeClass("uv-extreme uv-higher uv-high uv-moderate uv-low");
+    uvIndexEl.textContent = uvIndex;
 
     if (uvIndex > 10) {
         uvIndexEl.className = "uv-extreme";
@@ -148,8 +154,6 @@ var uvIndexColor = function(uvIndex) {
 
 // display 5 day forecast
 var displayForecast = function(forecastData) {
-    console.log(forecastData);
-
     var forecastIntroEl = document.querySelector("#forecast-intro");
     forecastIntroEl.textContent = "5-Day Forecast:";
 
@@ -194,7 +198,7 @@ var saveLocation = function() {
     localStorage.setItem("search-history", JSON.stringify(searchHistory));
 }
 
-// load city searches from local Storage
+// load city searches from localStorage
 var loadLocations = function() {
     var savedLocations = localStorage.getItem("search-history");
 
@@ -204,6 +208,7 @@ var loadLocations = function() {
     }
 
     searchHistory = JSON.parse(savedLocations);
+    trimHistory();
 
     for (var i = 0; i < searchHistory.length; i++) {
         cityButtons(searchHistory[i]);
@@ -212,15 +217,40 @@ var loadLocations = function() {
 
 // create history search buttons
 var cityButtons = function(city) {
-    // split city/state input to get city name
-    var buttonName = city.split(",")[0];
-
     // create history search button for city
     var buttonEl = document.createElement("button");
-    buttonEl.textContent = buttonName;
+    buttonEl.textContent = city;
     buttonEl.className = "btn btn-city";
     buttonEl.setAttribute("type", "button");
     buttonContainerEl.appendChild(buttonEl);
+}
+
+// check if city has been searched before, if not, create button
+var historyCheck = function (city) {
+    var count = 0;
+    for (var i = 0; i < searchHistory.length; i++) {
+        if (city === searchHistory[i]) {
+            count++;
+        }
+    }
+
+    if (count === 0) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+// trim history log to keep button count at 8 or less
+var trimHistory = function() {
+    if (searchHistory.length > 7) {
+        var trimHistory = []
+        for (var i = 0; i < 7; i++) {
+            trimHistory.push(searchHistory[i]);
+        }
+        searchHistory = trimHistory;
+    }
 }
 
 // if city button clicked, load city weather
