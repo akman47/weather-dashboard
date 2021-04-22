@@ -22,7 +22,7 @@ body {
     background-image: linear-gradient(-90deg,#042d69, #4176c5);
     border: 1px solid;
     text-align: center;
-    margin: 20px;
+    margin-bottom: 10px;
     padding: 10px;
     width:100%;
 }
@@ -80,6 +80,10 @@ body {
 .btn-city {
     color: var(--black);
     background-color: var(--gray);
+}
+
+.btn-city:hover {
+    font-weight: bold; 
 }
 
 /* current forcast style */
@@ -156,4 +160,53 @@ h2 {
 
 .card-body {
     line-height: 1.2;
+}
+
+/* media query for smaller desktop screens and smaller */
+@media screen and (max-width: 992px) {
+    .day-title {
+        font-size: 15px;
+    }
+}
+
+/* media query for tablets and smaller */
+@media screen and (max-width: 768px) {
+    .container {
+        display: inline;
+    }
+
+    body {
+        margin: 10px;
+    }
+    
+    .forecast-curret {
+        text-align: center;
+    }
+
+    .forecast-future {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .forecast-body {
+        width: 60%;
+        text-align: center;
+        font-size: 15px;
+    }
+
+    .forecast-day {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .btn-city {
+        width: 100%;
+    }
+}
+
+/* media query for mobile phones and smaller */
+@media screen and (max-width: 575px) {
+
 }

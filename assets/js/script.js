@@ -33,7 +33,7 @@ var formSubmitHandler = function(event) {
             }
         }
         
-        //cityButtons(updatedHistory[0]);
+        cityButtons(updatedHistory[0]);
         searchHistory = updatedHistory;
         saveLocation();
     }
